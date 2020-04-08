@@ -1,8 +1,17 @@
 const Nightmare = require('nightmare');
 const cheerio = require('cheerio');
+var Scraper = require('image-scraper');
 
-const nightmare = Nightmare({show:true})
+ 
+const nightmare = Nightmare({show:true})   //showing steps
+
 const url='https://www.flipkart.com/';
+var scraper = new Scraper('https://www.flipkart.com/');
+
+// scraper.scrape(function(image) { 
+//     image.save();
+// });
+
 
 nightmare.goto(url)
 .wait('body')
@@ -39,3 +48,6 @@ let getData = html=>{
     });
     return data;
 }
+
+
+
