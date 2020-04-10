@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 var Scraper = require('image-scraper');
 
  
-const nightmare = Nightmare({show:true})   //showing steps
+const nightmare = Nightmare({show:false})   //showing steps
 
 const url='https://www.flipkart.com/';
 var scraper = new Scraper('https://www.flipkart.com/');
@@ -11,12 +11,12 @@ var scraper = new Scraper('https://www.flipkart.com/');
 // scraper.scrape(function(image) { 
 //     image.save();
 // });
-
+let search_item= 'paint';
 
 nightmare.goto(url)
 .wait('body')
 .click('button._2AkmmA._29YdH8')
-.type('input.LM6RPg','puma shoes')
+.type('input.LM6RPg',search_item)  //searching for the item.
 .click('button.vh79eN')
 .wait('div.bhgxx2')
 .evaluate(()=> document.querySelector('body').innerHTML)
@@ -32,17 +32,19 @@ let getData = html=>{
     const $ = cheerio.load(html);
     $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem)=>{
         $(raw_elem).find('div div div').each((i, elem)=>{
-            // let img= $(elem).find('div img._1Nyybr');
+            
             let title= $(elem).find('div div a:nth-child(2)').text();
-            let link= $(elem).find('div div a:nth-child(2)').attr('href');
-            let price= $(elem).find('div div div._1vC4OE').text();
+            // let link= $(elem).find('div div a:nth-child(2)').attr('href');
+            let link= $(elem).find('img._1Nyybr').attr('src');
+            let price= $(elem).find('div._1vC4OE').text().substring();
             if(title){
                 data.push({
-                    // img= img,
+                    
                     title: title,
-                    // link: link,
+                    link: link,
                     price:price
                 });
+                
             }
         });
     });
