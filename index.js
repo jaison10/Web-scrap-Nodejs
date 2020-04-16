@@ -89,16 +89,16 @@ let getData = html=>{
                 
                         //     });
                         // });
-                        size= $('div._1i0wk8').text();
-                        // console.log("Avg star is",size); // displays value
+                        star= $('div._1i0wk8').text();
+                        // console.log("Avg star is",star); // displays value
                         
-                        if(size){
-                            data.push({size: size});   // doesnt work.
+                        if(star){
+                            data.push({star: star});   // doesnt work.
                         }
                     }
                 })
             }
-            console.log("Avg star is",size);   // displays null
+            console.log("Avg star is",star);   // displays null
 
              if(title){
                 data.push({
@@ -106,7 +106,7 @@ let getData = html=>{
                     // link: link,
                     price:price,
                     // newlink:url2,
-                    // size:size
+                    // star:star
                 });
             }
             if(!title){
