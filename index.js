@@ -6,12 +6,12 @@ const nightmare = Nightmare({show:false})   //showing steps
 
 const url='https://www.flipkart.com';
 
-let search_item= 'gifts';
+let search_item= 'laptop';
 let title=null;
 let link=null;
 let price=  null;
 let url2=null;
-let size= null;
+let star= null;
 
 nightmare.goto(url)
 .wait('body')
@@ -77,63 +77,74 @@ let getData = html=>{
             //         });
             // }
 
-            if(url2){
-                request(url2,(err,res,html)=>{
-                    if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-                        const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
-                        //console.log($.html());                      //u get the whole page for each product
-
-                        // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
-                        //         $(raw_elem2).find('div div div').each((i, elem2)=>{
-                        //         size= $(elem2).find('div._2h52bo').text();
-                
-                        //     });
-                        // });
-                        star= $('div._1i0wk8').text();
-                        // console.log("Avg star is",star); // displays value
-                        
-                        if(star){
-                            data.push({star: star});   // doesnt work.
-                        }
-                    }
-                })
-            }
-            console.log("Avg star is",star);   // displays null
-
              if(title){
+
+                if(url2){
+                    request(url2,(err,res,html)=>{
+                        if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                            const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+                            //console.log($.html());                      //u get the whole page for each product
+    
+                            // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
+                            //         $(raw_elem2).find('div div div').each((i, elem2)=>{
+                            //         size= $(elem2).find('div._2h52bo').text();
+                    
+                            //     });
+                            // });
+
+                            star= $('div._1i0wk8').text();
+                            console.log("Avg star in my first type search is",star); // displays value
+                        }
+                    })
+                }
+
                 data.push({
                     title: title,
                     // link: link,
                     price:price,
                     // newlink:url2,
-                    // star:star
+                    star:star
                 });
             }
+
             if(!title){
                  link= $(elem).find('a._31qSD5 img._1Nyybr').attr('src');
                  title= $(elem).find('div._1-2Iqu div div._3wU53n').text();
                  price= $(elem).find('div._1-2Iqu div:nth-child(2) div div div._1vC4OE').text().substring();
-
-                 if(title){
+                 url2 = url+$(elem).find('a._31qSD5').attr('href');
+                 
+                 if(url2){
+                    request(url2,(err,res,html)=>{
+                        if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                            const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+                            //console.log($.html());                      //u get the whole page for each product
+    
+                            // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
+                            //         $(raw_elem2).find('div div div').each((i, elem2)=>{
+                            //         size= $(elem2).find('div._2h52bo').text();
                     
-                    data.push({
-                        
+                            //     });
+                            // });
+                            star= $('div._1i0wk8').text();
+                            console.log("Avg star is",star); // displays value
+                            
+                            if(star){
+                                data.push({star: star});   // doesnt work.
+                            }
+                        }
+                    })
+                }
+
+                 if(title){ 
+                    data.push({   
                         title: title,
                         link: link,
                         price:price
                     });
-                    
                 }
 
-                
-
-                
-
-
             }
-            //for mobile, samsung etc
-            
-            
+
         });
     });
     return data;
