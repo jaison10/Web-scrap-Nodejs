@@ -33,12 +33,6 @@ let getData = html=>{
     $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem)=>{
         $(raw_elem).find('div div div').each((i, elem)=>{
 
-
-            
-            
-            // let title= $(elem).find('div div a:nth-child(2)').text();
-            // let link= $(elem).find('div div a:nth-child(2)').attr('href');
-            
             //for boxed items like gifts, dress, etc
              title= $(elem).find('a._2cLu-l').text();
              link= $(elem).find('img._1Nyybr').attr('src');
@@ -89,26 +83,31 @@ let getData = html=>{
                         const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
                         //console.log($.html());                      //u get the whole page for each product
 
-                        $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
-                                $(raw_elem2).find('div div div').each((i, elem2)=>{
-                                size= $(elem2).find('div._2h52bo').text();
+                        // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
+                        //         $(raw_elem2).find('div div div').each((i, elem2)=>{
+                        //         size= $(elem2).find('div._2h52bo').text();
                 
-                            });
-                        });
+                        //     });
+                        // });
+                        size= $('div._1i0wk8').text();
+                        // console.log("Avg star is",size); // displays value
+                        
+                        if(size){
+                            data.push({size: size});   // doesnt work.
+                        }
                     }
                 })
             }
-
+            console.log("Avg star is",size);   // displays null
 
              if(title){
                 data.push({
                     title: title,
                     // link: link,
                     price:price,
-                    newlink:url2,
-                    size:size
+                    // newlink:url2,
+                    // size:size
                 });
-    
             }
             if(!title){
                  link= $(elem).find('a._31qSD5 img._1Nyybr').attr('src');
