@@ -79,24 +79,26 @@ let getData = html=>{
 
              if(title){
 
-                // if(url2){
-                //     request(url2,(err,res,html)=>{
-                //         if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-                //             const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
-   
-                //             star= $('div._1i0wk8').text();
-                //             console.log("Avg star in my first type search is",star); // displays value
-                //         }
-                //     })
-                // }
                 // star=requestData(url2);
-                console.log(requestData(url2));
+                let star2;
+                request(url2,(err,res,html)=>{
+                    
+                    if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                        const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+    
+                        star2= $('div._1i0wk8').text();
+                        console.log("Avg star in my first type search is",star2); // displays value
+                        
+                    }
+                    return star2;
+                })
+
                 data.push({
                     title: title,
                     // link: link,
                     price:price,
                     // newlink:url2,
-                    star:star
+                    star:star2
                 });
             }
 
@@ -143,17 +145,17 @@ let getData = html=>{
     return data;
 }
 
-let requestData =url2=>{
-    request(url2,(err,res,html)=>{
-                if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-                    const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+// let requestData =url2_1=>{
+//     request(url2_1,(err,res,html)=>{
+//                 if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+//                     const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
 
-                    star= $('div._1i0wk8').text();
-                    console.log("Avg star in my first type search is",star); // displays value
-                    return star;                
-                }
-    })
-}
+//                     star= $('div._1i0wk8').text();
+//                     console.log("Avg star in my first type search is",star); // displays value
+//                     return star;                
+//                 }
+//     })
+// }
 
 
 
