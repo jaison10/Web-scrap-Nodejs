@@ -6,7 +6,7 @@ const nightmare = Nightmare({show:false})   //showing steps
 
 const url='https://www.flipkart.com';
 
-let search_item= 'laptop';
+let search_item= 'gifts';
 let title=null;
 let link=null;
 let price=  null;
@@ -79,25 +79,18 @@ let getData = html=>{
 
              if(title){
 
-                if(url2){
-                    request(url2,(err,res,html)=>{
-                        if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-                            const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
-                            //console.log($.html());                      //u get the whole page for each product
-    
-                            // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
-                            //         $(raw_elem2).find('div div div').each((i, elem2)=>{
-                            //         size= $(elem2).find('div._2h52bo').text();
-                    
-                            //     });
-                            // });
-
-                            star= $('div._1i0wk8').text();
-                            console.log("Avg star in my first type search is",star); // displays value
-                        }
-                    })
-                }
-
+                // if(url2){
+                //     request(url2,(err,res,html)=>{
+                //         if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                //             const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+   
+                //             star= $('div._1i0wk8').text();
+                //             console.log("Avg star in my first type search is",star); // displays value
+                //         }
+                //     })
+                // }
+                // star=requestData(url2);
+                console.log(requestData(url2));
                 data.push({
                     title: title,
                     // link: link,
@@ -125,21 +118,21 @@ let getData = html=>{
                     
                             //     });
                             // });
+
                             star= $('div._1i0wk8').text();
-                            console.log("Avg star is",star); // displays value
-                            
-                            if(star){
-                                data.push({star: star});   // doesnt work.
-                            }
+                            // console.log("Avg star in second search is",star); // displays value
+
                         }
                     })
+                    // console.log("Avg star in second search is",star); // doesn't displays value
                 }
 
                  if(title){ 
                     data.push({   
                         title: title,
                         link: link,
-                        price:price
+                        price:price,
+                        avg_star: star
                     });
                 }
 
@@ -148,6 +141,18 @@ let getData = html=>{
         });
     });
     return data;
+}
+
+let requestData =url2=>{
+    request(url2,(err,res,html)=>{
+                if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                    const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+
+                    star= $('div._1i0wk8').text();
+                    console.log("Avg star in my first type search is",star); // displays value
+                    return star;                
+                }
+    })
 }
 
 
