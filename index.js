@@ -37,7 +37,7 @@ let getData = html=>{
              title= $(elem).find('a._2cLu-l').text();
              link= $(elem).find('img._1Nyybr').attr('src');
              price= $(elem).find('div._1vC4OE').text().substring();
-            url2 = url+$(elem).find('a._1Vfi6u').attr('href');
+             url2 = url+$(elem).find('a._1Vfi6u').attr('href');
              
             // nightmare.goto(url2).wait('body')
             //         .evaluate(()=> document.querySelector('body').innerHTML)
@@ -78,27 +78,15 @@ let getData = html=>{
             // }
 
              if(title){
-
-                // star=requestData(url2);
-                let star2;
-                request(url2,(err,res,html)=>{
-                    
-                    if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-                        const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
-    
-                        star2= $('div._1i0wk8').text();
-                        console.log("Avg star in my first type search is",star2); // displays value
-                        
-                    }
-                    return star2;
-                })
+                console.log("Im here ")
+                star=requestData(url2);
 
                 data.push({
                     title: title,
                     // link: link,
                     price:price,
                     // newlink:url2,
-                    star:star2
+                    star:star
                 });
             }
 
@@ -107,19 +95,12 @@ let getData = html=>{
                  title= $(elem).find('div._1-2Iqu div div._3wU53n').text();
                  price= $(elem).find('div._1-2Iqu div:nth-child(2) div div div._1vC4OE').text().substring();
                  url2 = url+$(elem).find('a._31qSD5').attr('href');
-                 
+                 console.log("No, Im here ")
+
                  if(url2){
                     request(url2,(err,res,html)=>{
                         if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
                             const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
-                            //console.log($.html());                      //u get the whole page for each product
-    
-                            // $('div._1HmYoV._35HD7C:nth-child(2) div.bhgxx2.col-12-12').each((row, raw_elem2)=>{
-                            //         $(raw_elem2).find('div div div').each((i, elem2)=>{
-                            //         size= $(elem2).find('div._2h52bo').text();
-                    
-                            //     });
-                            // });
 
                             star= $('div._1i0wk8').text();
                             // console.log("Avg star in second search is",star); // displays value
@@ -130,12 +111,16 @@ let getData = html=>{
                 }
 
                  if(title){ 
+                    
                     data.push({   
                         title: title,
                         link: link,
                         price:price,
                         avg_star: star
                     });
+                }
+                if(!title){
+                    console.log("The values are null")
                 }
 
             }
@@ -145,17 +130,31 @@ let getData = html=>{
     return data;
 }
 
-// let requestData =url2_1=>{
-//     request(url2_1,(err,res,html)=>{
-//                 if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
-//                     const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
+let requestData =url2_1=>{
+    data2=[];
+    let starcount;
+    request(url2_1,(err,res,html)=>{
+                if(!err && res.statusCode==200){                                              //try with nightmare if that doesnt work uncomment these lines and check
+                    const $ = cheerio.load(html);                                            // i removed console.log from first nightmare so the name title isnt getting printed
 
-//                     star= $('div._1i0wk8').text();
-//                     console.log("Avg star in my first type search is",star); // displays value
-//                     return star;                
-//                 }
-//     })
-// }
+                    star= $('div._1i0wk8').text();
+                    console.log("Avg star in my first type search is",star); // displays value
+                    // $('ul._2ZGksR').each((row, elem)=>{
+                    //     number_of_star= $(elem).find('li div').find('span').text();
+                    //     console.log("Star catego ", number_of_star);
+                    // })
+                    $('ul._2M5FGu').find('li div').each((row, elem)=>{
+                        starcount=$(elem).text();
+                        console.log("STARCOUNT IS: ", starcount);
+                        data.push({
+                            starcount: starcount
+                        },)
+                    })
+                    }    
+                })
+         console.log("The final star data is : ", data2);       
+    }
+
 
 
 
