@@ -141,7 +141,7 @@ let requestData =url2_1=>{
                     console.log("Avg star in my first type search is",star); // displays value
                     // $('ul._2ZGksR').each((row, elem)=>{
                     //     number_of_star= $(elem).find('li div').find('span').text();
-                    //     console.log("Star catego ", number_of_star);
+                    //     console`.log("Star catego ", number_of_star);
                     // })
                     $('ul._2M5FGu').find('li div').each((row, elem)=>{
                         starcount=$(elem).text();
